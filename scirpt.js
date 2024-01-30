@@ -20,18 +20,18 @@ const heroesArray = [
   {
     id: 0,
     name: "Henriette Healer",
-    maxHP: 400,
-    currentHP: 400,
-    damage: 100,
+    maxHP: 600,
+    currentHP: 600,
+    damage: 200,
     alive: true,
     playerDOM: '<div class="img-container healer">',
   },
   {
     id: 1,
     name: "Ariana archer",
-    maxHP: 200,
-    currentHP: 400,
-    damage: 100,
+    maxHP: 600,
+    currentHP: 600,
+    damage: 400,
     alive: true,
     playerDOM: '<div class="img-container archer">',
   },
@@ -39,8 +39,8 @@ const heroesArray = [
     id: 2,
     name: "Wyona Warrior",
     maxHP: 600,
-    currentHP: 400,
-    damage: 200,
+    currentHP: 600,
+    damage: 400,
     alive: true,
     playerDOM: '<div class="img-container warrior">',
   },
@@ -48,7 +48,7 @@ const heroesArray = [
 
 const dragonObject = {
   name: "Daar Dragon",
-  maxHP: 5000,
+  maxHP: 4000,
   currentHP: 3000,
   damage: 200,
   alive: true,
@@ -78,15 +78,28 @@ function attack(e) {
     );
     dragonObject.currentHP -= heroesArray[e.target.id].damage;
     console.log(dragonObject.currentHP);
-    dragonHealth.textContent = dragonObject.currentHP;
+    dragonHealth.textContent = ` ${dragonObject.maxHP} / ${dragonObject.currentHP}`;
+  }
+
+  // healer
+  if (e.target.id === "0") {
+    console.log("heal folket!");
+
+    // gi 100 HP
+    heroesArray[1].alive ? (heroesArray[1].currentHP += 100) : "";
+    heroesArray[2].alive ? (heroesArray[2].currentHP += 100) : "";
+
+    // oppdatere heal text
+    archerHealth.textContent = ` ${heroesArray[1].maxHP} /${heroesArray[1].currentHP} HP`;
+    warriorHealth.textContent = ` ${heroesArray[2].maxHP} /${heroesArray[2].currentHP} HP`;
   }
 
   // dragen angriper
   if (dragonObject.currentHP >= 0) {
     dragonAttack();
-    healerHealth.textContent = `${heroesArray[0].currentHP} HP`;
-    archerHealth.textContent = `${heroesArray[1].currentHP} HP`;
-    warriorHealth.textContent = `${heroesArray[2].currentHP} HP`;
+    healerHealth.textContent = ` ${heroesArray[0].maxHP} /${heroesArray[0].currentHP} HP`;
+    archerHealth.textContent = ` ${heroesArray[1].maxHP} /${heroesArray[1].currentHP} HP`;
+    warriorHealth.textContent = ` ${heroesArray[2].maxHP} /${heroesArray[2].currentHP} HP`;
   } else {
     alert("Dragen er død 🎉");
     alert("Gratulerer, du har vunnet spillet!🎉");
@@ -125,3 +138,14 @@ function dragonAttack() {
     }
   }
 }
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "d") {
+    alert("Knappen D ble Trykk, Alle heltene får 10% mer damage!");
+
+    heroesArray.forEach((hero) => {
+      hero.damage += hero.damage * 0.1;
+      console.log(hero);
+    });
+  }
+});
