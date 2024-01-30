@@ -29,9 +29,9 @@ const heroesArray = [
   {
     id: 1,
     name: "Ariana archer",
-    maxHP: 500,
-    currentHP: 900,
-    damage: 400,
+    maxHP: 200,
+    currentHP: 400,
+    damage: 100,
     alive: true,
     playerDOM: '<div class="img-container archer">',
   },
@@ -39,8 +39,8 @@ const heroesArray = [
     id: 2,
     name: "Wyona Warrior",
     maxHP: 600,
-    currentHP: 700,
-    damage: 400,
+    currentHP: 400,
+    damage: 200,
     alive: true,
     playerDOM: '<div class="img-container warrior">',
   },
@@ -48,8 +48,8 @@ const heroesArray = [
 
 const dragonObject = {
   name: "Daar Dragon",
-  maxHP: 2000,
-  currentHP: 2000,
+  maxHP: 5000,
+  currentHP: 3000,
   damage: 200,
   alive: true,
   playerDOM: '<div class="img-container dragon-container">',
@@ -67,30 +67,6 @@ const heroID = [heroesArray[0].id, heroesArray[1].id, heroesArray[2].id];
 playersDOM.forEach((player, i) => {
   player.id = i;
 });
-
-/*
-function attack (e) {
-
-  switch(e.target.id){
-    case '0': 
-        console.log(` ${heroesArray[0].name} har gjort ${heroesArray[0].damage} skade på ${dragonObject.name}!`);
-        dragonObject.currentHP -= heroesArray[0].damage;
-        break;
-    case '1': 
-        console.log(` ${heroesArray[1].name} har gjort ${heroesArray[1].damage} skade på ${dragonObject.name}!`);
-        dragonObject.currentHP -= heroesArray[1].damage;
-        break;
-    case '2': 
-        console.log(` ${heroesArray[2].name} har gjort ${heroesArray[2].damage} skade på ${dragonObject.name}!`);
-        dragonObject.currentHP -= heroesArray[1].damage;
-        break;
-    default: 
-  }
-
-  console.log(dragonObject.currentHP)
-
-};
-*/
 
 function attack(e) {
   // hvis helten lever, kan angripe dragen
@@ -116,13 +92,13 @@ function attack(e) {
     alert("Gratulerer, du har vunnet spillet!🎉");
     document.querySelector(".dragon").remove();
   }
-}
 
-/*
-document.querySelector('.healer').addEventListener('click', attack);
-document.querySelector('.archer').addEventListener('click', attack);
-document.querySelector('.warrior').addEventListener('click', attack);
-*/
+  const alive = heroesArray.every((hero) => hero.alive === false);
+
+  if (alive === true) {
+    alert(`Spillet er tapt! ${dragonObject.name} har vunnet!`);
+  }
+}
 
 playersDOM.forEach((player) => {
   player.addEventListener("click", attack);
@@ -144,6 +120,7 @@ function dragonAttack() {
     if (heroesArray[randomHero].currentHP <= 0) {
       heroesArray[randomHero].alive = false;
       document.getElementById(randomHero).parentElement.remove();
+
       alert(`${heroesArray[randomHero].name} is dead`);
     }
   }
